@@ -1,22 +1,34 @@
-FROM node:16
+FROM node:18-alpine
 
-# Create app directory
+# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package files
 COPY package*.json ./
 
-# Install packages
-RUN npm install
+# Install dependencies
+RUN npm ci --only=production
 
-# Copy the app code
+# Copy application code
 COPY . .
 
 # Build the project
 RUN npm run build
 
-# Expose ports
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+
+# Set proper ownership
+RUN chown -R nextjs:nodejs /app
+USER nextjs
+
+# Expose port
 EXPOSE 3001
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD node -e "require('fs').accessSync('/app/dist/start-bot.js'); console.log('Health check passed')"
 
 # Run the application
 CMD [ "node", "dist/start-manager.js" ]
