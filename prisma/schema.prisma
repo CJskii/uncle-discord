@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model DiscordUser {
+  id        String   @id @map("id") @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  bf6       Bf6Profile?
+
+  @@map("discord_users")
+}
+
+model Bf6Profile {
+  id            String   @id @default(cuid()) @map("id")
+  discordUserId String   @unique @map("discord_user_id")
+
+  bf6Username   String   @map("bf6_username")
+  displayName   String?  @map("bf6_display_name")
+  nucleusId     String?  @map("bf6_nucleus_id")
+  personaId     String?  @map("bf6_persona_id")
+  platform      String?  @map("bf6_platform")
+  platformId    String?  @map("bf6_platform_id")
+  status        String?  @map("bf6_status")
+  visibility    String?  @map("bf6_visibility")
+  bf6CreatedAt  DateTime? @map("bf6_created_at")
+
+  lastSyncedAt  DateTime @default(now()) @map("last_synced_at")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  discordUser   DiscordUser @relation(fields: [discordUserId], references: [id], onDelete: Cascade)
+
+  @@map("bf6_profiles")
+  @@index([bf6Username], map: "idx_bf6_profiles_username")
+}
