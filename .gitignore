@@ -130,3 +130,5 @@ dist
 .aider*
 .env
 .env
+
+/src/generated/prisma
