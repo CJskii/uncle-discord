@@ -203,7 +203,8 @@
         },
         "arguments": {
             "command": "command",
-            "option": "option"
+            "option": "option",
+            "bf6Username": "username"
         },
         "commandDescs": {
             "dev": "Developer use only.",
