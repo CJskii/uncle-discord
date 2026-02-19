@@ -21,6 +21,7 @@ import {
     ReactionHandler,
     TriggerHandler,
 } from './events/index.js';
+import { VoiceStateUpdateHandler } from './events/voice-state-update-handler.js';
 import { CustomClient } from './extensions/index.js';
 import { Job } from './jobs/index.js';
 import { Bot } from './models/bot.js';
@@ -94,6 +95,7 @@ async function start(): Promise<void> {
     let triggerHandler = new TriggerHandler(triggers, eventDataService);
     let messageHandler = new MessageHandler(triggerHandler);
     let reactionHandler = new ReactionHandler(reactions, eventDataService);
+    let voiceStateUpdateHandler = new VoiceStateUpdateHandler();
 
     // Jobs
     let jobs: Job[] = [
@@ -101,6 +103,7 @@ async function start(): Promise<void> {
     ];
 
     // Bot
+    Logger.info('Initializing bot with handlers and services...');
     let bot = new Bot(
         Config.client.token,
         client,
@@ -110,8 +113,10 @@ async function start(): Promise<void> {
         commandHandler,
         buttonHandler,
         reactionHandler,
-        new JobService(jobs)
+        new JobService(jobs),
+        voiceStateUpdateHandler
     );
+    Logger.info('Bot initialized successfully.');
 
     // Register
     if (process.argv[2] == 'commands') {
@@ -132,7 +137,9 @@ async function start(): Promise<void> {
         process.exit();
     }
 
-    await bot.start();
+    await bot.start().catch(error => {
+        Logger.error('Error starting bot:', error);
+    });
 }
 
 process.on('unhandledRejection', (reason, _promise) => {

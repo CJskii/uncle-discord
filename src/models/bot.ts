@@ -13,6 +13,7 @@ import {
     RateLimitData,
     RESTEvents,
     User,
+    VoiceState,
 } from 'discord.js';
 import { createRequire } from 'node:module';
 
@@ -23,6 +24,7 @@ import {
     GuildLeaveHandler,
     MessageHandler,
     ReactionHandler,
+    VoiceStateUpdateHandler,
 } from '../events/index.js';
 import { JobService, Logger } from '../services/index.js';
 import { PartialUtils } from '../utils/index.js';
@@ -44,7 +46,8 @@ export class Bot {
         private commandHandler: CommandHandler,
         private buttonHandler: ButtonHandler,
         private reactionHandler: ReactionHandler,
-        private jobService: JobService
+        private jobService: JobService,
+        private voiceStateUpdateHandler: VoiceStateUpdateHandler
     ) {}
 
     public async start(): Promise<void> {
@@ -69,6 +72,10 @@ export class Bot {
         this.client.rest.on(RESTEvents.RateLimited, (rateLimitData: RateLimitData) =>
             this.onRateLimit(rateLimitData)
         );
+        this.client.on(Events.VoiceStateUpdate, (oldState: VoiceState, newState: VoiceState) =>
+            this.onVoiceStateUpdate(oldState, newState)
+        );
+        Logger.info('Event listeners registered');
     }
 
     private async login(token: string): Promise<void> {
@@ -192,6 +199,22 @@ export class Bot {
             );
         } catch (error) {
             Logger.error(Logs.error.reaction, error);
+        }
+    }
+
+    private async onVoiceStateUpdate(oldState: VoiceState, newState: VoiceState): Promise<void> {
+        Logger.info(
+            `[voice-event] fired from=${oldState.channelId ?? 'none'} to=${newState.channelId ?? 'none'} userId=${newState.id}`
+        );
+        if (!this.ready || Debug.dummyMode.enabled) {
+            Logger.info('Bot not ready or dummy mode enabled. Skipping voice state update.');
+            return;
+        }
+
+        try {
+            await this.voiceStateUpdateHandler.process(oldState, newState);
+        } catch (error) {
+            Logger.error(Logs.error.voiceStateUpdate, error);
         }
     }
 
