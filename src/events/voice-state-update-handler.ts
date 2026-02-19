@@ -7,11 +7,19 @@ import {
     VoiceState,
 } from 'discord.js';
 
+import { Config } from '../constants/config.js';
 import { Logger } from '../services/index.js';
 
+
+
 export class VoiceStateUpdateHandler {
-    private readonly CREATE_CHANNEL_ID = '1473856891225636884';
-    private readonly TEMP_CATEGORY_ID = '1473856499351556160';
+    private readonly CREATE_CHANNEL_ID: string;
+    private readonly TEMP_CATEGORY_ID: string;
+
+    constructor() {
+        this.CREATE_CHANNEL_ID = Config.CREATE_CHANNEL_ID;
+        this.TEMP_CATEGORY_ID = Config.TEMP_CATEGORY_ID;
+    }
 
     // Debounce to prevent duplicate channels from rapid voice updates
     private readonly creatingForUser = new Set<string>();
