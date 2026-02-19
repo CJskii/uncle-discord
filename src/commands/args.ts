@@ -57,4 +57,11 @@ export class Args {
             },
         ],
     };
+    public static readonly BF6_USERNAME: APIApplicationCommandBasicOption = {
+        name: Lang.getRef('arguments.bf6Username', Language.Default),
+        name_localizations: Lang.getRefLocalizationMap('arguments.bf6Username'),
+        description: Lang.getRef('argDescs.bf6Username', Language.Default),
+        description_localizations: Lang.getRefLocalizationMap('argDescs.bf6Username'),
+        type: ApplicationCommandOptionType.String,
+    };
 }

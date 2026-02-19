@@ -192,7 +192,8 @@
             "dev": "dev",
             "help": "help",
             "info": "info",
-            "test": "test"
+            "test": "test",
+            "registerBf6": "register-bf6"
         },
         "userCommands": {
             "viewDateJoined": "View Date Joined"
@@ -208,12 +209,14 @@
             "dev": "Developer use only.",
             "help": "Find help or contact support.",
             "info": "View bot info.",
-            "test": "Run the test command."
+            "test": "Run the test command.",
+            "registerBf6": "Register your BF6 username"
         },
         "argDescs": {
             "devCommand": "Command.",
             "helpOption": "Option.",
-            "infoOption": "Option."
+            "infoOption": "Option.",
+            "bf6Username": "Your BF6 username (from tracker.gg)"
         },
         "fields": {
             "commands": "Commands",

@@ -69,6 +69,21 @@ export const ChatCommandMetadata: {
         dm_permission: true,
         default_member_permissions: undefined,
     },
+    REGISTER_BF6: {
+        type: ApplicationCommandType.ChatInput,
+        name: Lang.getRef('chatCommands.registerBf6', Language.Default),
+        name_localizations: Lang.getRefLocalizationMap('chatCommands.registerBf6'),
+        description: Lang.getRef('commandDescs.registerBf6', Language.Default),
+        description_localizations: Lang.getRefLocalizationMap('commandDescs.registerBf6'),
+        dm_permission: true,
+        default_member_permissions: undefined,
+        options: [
+            {
+                ...Args.BF6_USERNAME,
+                required: true,
+            },
+        ],
+    },
 };
 
 export const MessageCommandMetadata: {
