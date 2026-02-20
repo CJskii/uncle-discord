@@ -9,7 +9,9 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     networks:
-      - infrastructure-net
+      infrastructure-net:
+        aliases:
+          - postgres
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-sentinel_user} -d ${POSTGRES_DB:-discord_bot}"]
@@ -37,7 +39,6 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-    # Run the built JS from the image
     command: ["node", "dist/start-bot.js"]
 
 volumes:
