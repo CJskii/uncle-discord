@@ -49,7 +49,7 @@ Bot zlicza każde samodzielne `XD` (również warianty takie jak `xd`, `xD` i `X
 - `/xd` — pokazuje Twoje statystyki na bieżącym serwerze.
 - `/xd użytkownik:@osoba` — pokazuje statystyki wybranego użytkownika.
 
-Polski jest domyślnym językiem komendy. Dla serwerów z angielskim językiem Discorda dostępne są angielskie opisy komendy, nazwa opcji `user` oraz angielskie odpowiedzi.
+Odpowiedzi komendy są zawsze wyświetlane po polsku. Dla angielskich klientów Discorda dostępne pozostają angielskie lokalizacje opisu komendy oraz nazwy opcji `user`.
 
 Statystyki obejmują liczbę XD użytkownika i serwera, miejsce w rankingu oraz procentowy wkład użytkownika. Zliczanie zaczyna się dopiero po wdrożeniu tej wersji; bot nie przegląda historii wiadomości.
 

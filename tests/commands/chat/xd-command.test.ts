@@ -101,20 +101,24 @@ describe('XdCommand', () => {
         expect(InteractionUtils.send).not.toHaveBeenCalled();
     });
 
-    it('returns a fully English response for an English guild locale', async () => {
+    it('returns a Polish response for an English guild locale', async () => {
         let intr = interaction({ guildLocale: Locale.EnglishGB });
         await new XdCommand(statistics as unknown as XdStatisticsService).execute(intr, data);
         let embed = sentEmbed();
-        expect(embed.data.title).toBe('XD statistics — CJ Serwerowy');
+        expect(embed.data.title).toBe('Statystyki XD — CJ Serwerowy');
         expect(embed.data.fields).toEqual(
             expect.arrayContaining([
-                expect.objectContaining({ name: 'XD count', value: '142' }),
-                expect.objectContaining({ name: 'Total XD count on this server', value: '1,337' }),
-                expect.objectContaining({ name: 'Leaderboard rank', value: '#3' }),
+                expect.objectContaining({ name: 'Twoja liczba XD', value: '142' }),
+                expect.objectContaining({ name: 'Miejsce w rankingu', value: '#3' }),
                 expect.objectContaining({
-                    name: `Contribution to the server's decline`,
-                    value: '10.62%',
+                    name: 'Wkład w upadek poziomu serwera',
+                    value: '10,62%',
                 }),
+            ])
+        );
+        expect(embed.data.fields).not.toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ name: 'Łączna liczba XD na serwerze' }),
             ])
         );
     });
@@ -161,13 +165,13 @@ describe('XdCommand', () => {
         expect(InteractionUtils.send).not.toHaveBeenCalled();
     });
 
-    it('returns a localised database error without exposing the exception', async () => {
+    it('returns a Polish database error without exposing the exception', async () => {
         statistics.getUserLifetimeCount.mockRejectedValue(new Error('secret database error'));
         let intr = interaction({ guildLocale: Locale.EnglishUS });
         await new XdCommand(statistics as unknown as XdStatisticsService).execute(intr, data);
         expect(InteractionUtils.editReply).toHaveBeenCalledWith(
             intr,
-            'Could not retrieve XD statistics. Please try again later.'
+            'Nie udało się pobrać statystyk XD. Spróbuj ponownie później.'
         );
     });
 

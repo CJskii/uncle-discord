@@ -15,7 +15,7 @@ export class XdCommand implements Command {
     constructor(private statistics: XdStatisticsService = new XdStatisticsService()) {}
 
     public async execute(intr: ChatInputCommandInteraction, _data: EventData): Promise<void> {
-        let locale = this.getLocale(intr.guildLocale);
+        let locale = Locale.Polish;
         if (!intr.inGuild() || !intr.guildId) {
             await InteractionUtils.editReply(intr, Lang.getRef('xd.guildOnly', locale));
             return;
@@ -39,7 +39,6 @@ export class XdCommand implements Command {
                 {
                     DISPLAY_NAME: displayName,
                     USER_COUNT: formatXdNumber(userCount, locale),
-                    GUILD_COUNT: formatXdNumber(guildCount, locale),
                     RANK:
                         rank === null
                             ? Lang.getRef('xd.unranked', locale)
@@ -62,11 +61,5 @@ export class XdCommand implements Command {
             );
             await InteractionUtils.editReply(intr, Lang.getRef('xd.unexpectedError', locale));
         }
-    }
-
-    private getLocale(guildLocale: Locale | null): Locale {
-        return guildLocale === Locale.EnglishGB || guildLocale === Locale.EnglishUS
-            ? guildLocale
-            : Locale.Polish;
     }
 }

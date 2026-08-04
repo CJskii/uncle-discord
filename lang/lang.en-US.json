@@ -61,11 +61,6 @@
                 "fields": [
                     { "name": "XD count", "value": "{{USER_COUNT}}", "inline": true },
                     {
-                        "name": "Total XD count on this server",
-                        "value": "{{GUILD_COUNT}}",
-                        "inline": true
-                    },
-                    {
                         "name": "Leaderboard rank",
                         "value": "{{RANK}}",
                         "inline": true
@@ -81,11 +76,6 @@
                 "description": "{{EMPTY_STATE}}",
                 "fields": [
                     { "name": "XD count", "value": "{{USER_COUNT}}", "inline": true },
-                    {
-                        "name": "Total XD count on this server",
-                        "value": "{{GUILD_COUNT}}",
-                        "inline": true
-                    },
                     {
                         "name": "Leaderboard rank",
                         "value": "{{RANK}}",

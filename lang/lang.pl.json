@@ -7,11 +7,6 @@
                 "fields": [
                     { "name": "Twoja liczba XD", "value": "{{USER_COUNT}}", "inline": true },
                     {
-                        "name": "Łączna liczba XD na serwerze",
-                        "value": "{{GUILD_COUNT}}",
-                        "inline": true
-                    },
-                    {
                         "name": "Miejsce w rankingu",
                         "value": "{{RANK}}",
                         "inline": true
@@ -29,11 +24,6 @@
                     {
                         "name": "Liczba XD użytkownika",
                         "value": "{{USER_COUNT}}",
-                        "inline": true
-                    },
-                    {
-                        "name": "Łączna liczba XD na serwerze",
-                        "value": "{{GUILD_COUNT}}",
                         "inline": true
                     },
                     {
