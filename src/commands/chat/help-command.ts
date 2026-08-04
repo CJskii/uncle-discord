@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, EmbedBuilder, PermissionsString } from 'discord.js';
+import { ChatInputCommandInteraction, EmbedBuilder, Locale, PermissionsString } from 'discord.js';
 
 import { HelpOption } from '../../enums/index.js';
 import { Language } from '../../models/enum-helpers/index.js';
@@ -36,6 +36,12 @@ export class HelpCommand implements Command {
                         await ClientUtils.findAppCommand(
                             intr.client,
                             Lang.getRef('chatCommands.info', Language.Default)
+                        )
+                    ),
+                    CMD_LINK_XD: FormatUtils.commandMention(
+                        await ClientUtils.findAppCommand(
+                            intr.client,
+                            Lang.getRef('chatCommands.xd', Locale.Polish)
                         )
                     ),
                 });

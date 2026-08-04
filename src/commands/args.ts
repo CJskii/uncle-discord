@@ -1,10 +1,17 @@
-import { APIApplicationCommandBasicOption, ApplicationCommandOptionType } from 'discord.js';
+import { APIApplicationCommandBasicOption, ApplicationCommandOptionType, Locale } from 'discord.js';
 
 import { DevCommandName, HelpOption, InfoOption } from '../enums/index.js';
 import { Language } from '../models/enum-helpers/index.js';
 import { Lang } from '../services/index.js';
 
 export class Args {
+    public static readonly XD_USER: APIApplicationCommandBasicOption = {
+        name: Lang.getRef('arguments.xdUser', Locale.Polish),
+        name_localizations: Lang.getRefLocalizationMap('arguments.xdUser'),
+        description: Lang.getRef('argDescs.xdUser', Locale.Polish),
+        description_localizations: Lang.getRefLocalizationMap('argDescs.xdUser'),
+        type: ApplicationCommandOptionType.User,
+    };
     public static readonly DEV_COMMAND: APIApplicationCommandBasicOption = {
         name: Lang.getRef('arguments.command', Language.Default),
         name_localizations: Lang.getRefLocalizationMap('arguments.command'),

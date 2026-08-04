@@ -1,0 +1,65 @@
+{
+    "data": {
+        "displayEmbeds": {
+            "xdStatisticsOwn": {
+                "title": "Statystyki XD — {{DISPLAY_NAME}}",
+                "description": "{{EMPTY_STATE}}",
+                "fields": [
+                    { "name": "Twoja liczba XD", "value": "{{USER_COUNT}}", "inline": true },
+                    {
+                        "name": "Łączna liczba XD na serwerze",
+                        "value": "{{GUILD_COUNT}}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Miejsce w rankingu",
+                        "value": "{{RANK}}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Wkład w upadek poziomu serwera",
+                        "value": "{{CONTRIBUTION}}"
+                    }
+                ]
+            },
+            "xdStatisticsOther": {
+                "title": "Statystyki XD — {{DISPLAY_NAME}}",
+                "description": "{{EMPTY_STATE}}",
+                "fields": [
+                    {
+                        "name": "Liczba XD użytkownika",
+                        "value": "{{USER_COUNT}}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Łączna liczba XD na serwerze",
+                        "value": "{{GUILD_COUNT}}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Miejsce w rankingu",
+                        "value": "{{RANK}}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Wkład w upadek poziomu serwera",
+                        "value": "{{CONTRIBUTION}}"
+                    }
+                ]
+            }
+        }
+    },
+    "refs": {
+        "chatCommands": { "xd": "xd" },
+        "arguments": { "xdUser": "użytkownik" },
+        "commandDescs": { "xd": "Sprawdź statystyki używania XD." },
+        "argDescs": { "xdUser": "Użytkownik, którego statystyki chcesz sprawdzić." },
+        "xd": {
+            "unranked": "Poza rankingiem",
+            "noDataOwn": "Nie wysłałeś jeszcze żadnego XD. Podejrzane.",
+            "noDataOther": "Ten użytkownik nie wysłał jeszcze żadnego XD. Podejrzane.",
+            "guildOnly": "Tej komendy można używać tylko na serwerze.",
+            "unexpectedError": "Nie udało się pobrać statystyk XD. Spróbuj ponownie później."
+        }
+    }
+}

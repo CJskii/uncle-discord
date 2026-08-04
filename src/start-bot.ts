@@ -9,6 +9,7 @@ import {
     InfoCommand,
     RegisterBF6Command,
     TestCommand,
+    XdCommand,
 } from './commands/chat/index.js';
 import {
     ChatCommandMetadata,
@@ -18,6 +19,7 @@ import {
 } from './commands/index.js';
 import { ViewDateSent } from './commands/message/index.js';
 import { ViewDateJoined } from './commands/user/index.js';
+import { prisma } from './db/prisma.js';
 import {
     ButtonHandler,
     CommandHandler,
@@ -37,6 +39,7 @@ import {
     EventDataService,
     JobService,
     Logger,
+    XdStatisticsService,
 } from './services/index.js';
 import { Trigger } from './triggers/index.js';
 
@@ -47,10 +50,11 @@ let Logs = require('../lang/logs.json');
 async function start(): Promise<void> {
     // Services
     let eventDataService = new EventDataService();
+    let xdStatisticsService = new XdStatisticsService(prisma);
 
     // Client
     let client = new CustomClient({
-        intents: Config.client.intents,
+        intents: [...new Set([...Config.client.intents, 'MessageContent'])],
         partials: (Config.client.partials as string[]).map(partial => Partials[partial]),
         makeCache: Options.cacheWithLimits({
             // Keep default caching behavior
@@ -69,6 +73,7 @@ async function start(): Promise<void> {
         new InfoCommand(),
         new RegisterBF6Command(),
         new TestCommand(),
+        new XdCommand(xdStatisticsService),
 
         // Message Context Commands
         new ViewDateSent(),
@@ -100,7 +105,7 @@ async function start(): Promise<void> {
     let commandHandler = new CommandHandler(commands, eventDataService);
     let buttonHandler = new ButtonHandler(buttons, eventDataService);
     let triggerHandler = new TriggerHandler(triggers, eventDataService);
-    let messageHandler = new MessageHandler(triggerHandler);
+    let messageHandler = new MessageHandler(triggerHandler, xdStatisticsService);
     let reactionHandler = new ReactionHandler(reactions, eventDataService);
     let voiceStateUpdateHandler = new VoiceStateUpdateHandler();
 

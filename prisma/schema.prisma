@@ -14,35 +14,85 @@ datasource db {
 }
 
 model DiscordUser {
-  id        String   @id @map("id") @unique
+  id        String   @id @map("id")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  bf6       Bf6Profile?
+  bf6         Bf6Profile?
+  memberships DiscordGuildMember[]
 
   @@map("discord_users")
 }
 
+model DiscordGuild {
+  id        String   @id @map("id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  memberships DiscordGuildMember[]
+
+  @@map("discord_guilds")
+}
+
+model DiscordGuildMember {
+  id        String   @id @default(cuid()) @map("id")
+  guildId   String   @map("guild_id")
+  userId    String   @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  guild      DiscordGuild             @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  user       DiscordUser              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activities ActivityDailyAggregate[]
+
+  @@unique([guildId, userId], map: "discord_guild_members_guild_user_key")
+  @@index([userId], map: "idx_discord_guild_members_user")
+  @@map("discord_guild_members")
+}
+
+enum ActivityMetric {
+  XD
+}
+
 model Bf6Profile {
-  id            String   @id @default(cuid()) @map("id")
-  discordUserId String   @unique @map("discord_user_id")
+  id            String @id @default(cuid()) @map("id")
+  discordUserId String @unique @map("discord_user_id")
 
-  bf6Username   String   @map("bf6_username")
-  displayName   String?  @map("bf6_display_name")
-  nucleusId     String?  @map("bf6_nucleus_id")
-  personaId     String?  @map("bf6_persona_id")
-  platform      String?  @map("bf6_platform")
-  platformId    String?  @map("bf6_platform_id")
-  status        String?  @map("bf6_status")
-  visibility    String?  @map("bf6_visibility")
-  bf6CreatedAt  DateTime? @map("bf6_created_at")
+  bf6Username  String    @map("bf6_username")
+  displayName  String?   @map("bf6_display_name")
+  nucleusId    String?   @map("bf6_nucleus_id")
+  personaId    String?   @map("bf6_persona_id")
+  platform     String?   @map("bf6_platform")
+  platformId   String?   @map("bf6_platform_id")
+  status       String?   @map("bf6_status")
+  visibility   String?   @map("bf6_visibility")
+  bf6CreatedAt DateTime? @map("bf6_created_at")
 
-  lastSyncedAt  DateTime @default(now()) @map("last_synced_at")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  lastSyncedAt DateTime @default(now()) @map("last_synced_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 
-  discordUser   DiscordUser @relation(fields: [discordUserId], references: [id], onDelete: Cascade)
+  discordUser DiscordUser @relation(fields: [discordUserId], references: [id], onDelete: Cascade)
 
-  @@map("bf6_profiles")
   @@index([bf6Username], map: "idx_bf6_profiles_username")
+  @@map("bf6_profiles")
+}
+
+model ActivityDailyAggregate {
+  id               String         @id @default(cuid())
+  guildMemberId    String         @map("guild_member_id")
+  channelDiscordId String         @map("channel_id")
+  metric           ActivityMetric @map("kind")
+  date             DateTime       @db.Date
+  count            Int
+  createdAt        DateTime       @default(now()) @map("created_at")
+  updatedAt        DateTime       @updatedAt @map("updated_at")
+
+  guildMember DiscordGuildMember @relation(fields: [guildMemberId], references: [id], onDelete: Cascade)
+
+  @@unique([guildMemberId, channelDiscordId, metric, date], map: "activity_daily_aggregate_identity")
+  @@index([guildMemberId, metric, date], map: "idx_activity_member_metric_date")
+  @@index([metric, date], map: "idx_activity_metric_date")
+  @@index([channelDiscordId, metric, date], map: "idx_activity_channel_metric_date")
+  @@map("activity_daily_aggregates")
 }

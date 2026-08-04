@@ -36,7 +36,8 @@
                             "To see the available commands, just type `/` and select the bot from the left side. You can then scroll through all available commands. Some commands may be hidden if you don't have permission to view them.",
                             "",
                             "{{CMD_LINK_TEST}} - {{REF:commandDescs.test}}",
-                            "{{CMD_LINK_INFO}} - {{REF:commandDescs.info}}"
+                            "{{CMD_LINK_INFO}} - {{REF:commandDescs.info}}",
+                            "{{CMD_LINK_XD}} - {{REF:commandDescs.xd}}"
                         ]
                     },
                     {
@@ -53,6 +54,48 @@
             },
             "test": {
                 "description": "Test command works!"
+            },
+            "xdStatisticsOwn": {
+                "title": "XD statistics — {{DISPLAY_NAME}}",
+                "description": "{{EMPTY_STATE}}",
+                "fields": [
+                    { "name": "XD count", "value": "{{USER_COUNT}}", "inline": true },
+                    {
+                        "name": "Total XD count on this server",
+                        "value": "{{GUILD_COUNT}}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Leaderboard rank",
+                        "value": "{{RANK}}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Contribution to the server's decline",
+                        "value": "{{CONTRIBUTION}}"
+                    }
+                ]
+            },
+            "xdStatisticsOther": {
+                "title": "XD statistics — {{DISPLAY_NAME}}",
+                "description": "{{EMPTY_STATE}}",
+                "fields": [
+                    { "name": "XD count", "value": "{{USER_COUNT}}", "inline": true },
+                    {
+                        "name": "Total XD count on this server",
+                        "value": "{{GUILD_COUNT}}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Leaderboard rank",
+                        "value": "{{RANK}}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Contribution to the server's decline",
+                        "value": "{{CONTRIBUTION}}"
+                    }
+                ]
             },
             "viewDateJoined": {
                 "description": "{{TARGET}} joined on {{DATE}}!"
@@ -193,7 +236,8 @@
             "help": "help",
             "info": "info",
             "test": "test",
-            "registerBf6": "register-bf6"
+            "registerBf6": "register-bf6",
+            "xd": "xd"
         },
         "userCommands": {
             "viewDateJoined": "View Date Joined"
@@ -204,20 +248,30 @@
         "arguments": {
             "command": "command",
             "option": "option",
-            "bf6Username": "username"
+            "bf6Username": "username",
+            "xdUser": "user"
         },
         "commandDescs": {
             "dev": "Developer use only.",
             "help": "Find help or contact support.",
             "info": "View bot info.",
             "test": "Run the test command.",
-            "registerBf6": "Register your BF6 username"
+            "registerBf6": "Register your BF6 username",
+            "xd": "View XD usage statistics."
         },
         "argDescs": {
             "devCommand": "Command.",
             "helpOption": "Option.",
             "infoOption": "Option.",
-            "bf6Username": "Your BF6 username (from tracker.gg)"
+            "bf6Username": "Your BF6 username (from tracker.gg)",
+            "xdUser": "The user whose statistics you want to view."
+        },
+        "xd": {
+            "unranked": "Unranked",
+            "noDataOwn": "You have not sent any XD yet. Suspicious.",
+            "noDataOther": "This user has not sent any XD yet. Suspicious.",
+            "guildOnly": "This command can only be used in a server.",
+            "unexpectedError": "Could not retrieve XD statistics. Please try again later."
         },
         "fields": {
             "commands": "Commands",

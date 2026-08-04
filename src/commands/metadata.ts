@@ -1,5 +1,6 @@
 import {
     ApplicationCommandType,
+    Locale,
     PermissionFlagsBits,
     PermissionsBitField,
     RESTPostAPIChatInputApplicationCommandsJSONBody,
@@ -13,6 +14,16 @@ import { Lang } from '../services/index.js';
 export const ChatCommandMetadata: {
     [command: string]: RESTPostAPIChatInputApplicationCommandsJSONBody;
 } = {
+    XD: {
+        type: ApplicationCommandType.ChatInput,
+        name: Lang.getRef('chatCommands.xd', Locale.Polish),
+        name_localizations: Lang.getRefLocalizationMap('chatCommands.xd'),
+        description: Lang.getRef('commandDescs.xd', Locale.Polish),
+        description_localizations: Lang.getRefLocalizationMap('commandDescs.xd'),
+        dm_permission: false,
+        default_member_permissions: undefined,
+        options: [{ ...Args.XD_USER, required: false }],
+    },
     DEV: {
         type: ApplicationCommandType.ChatInput,
         name: Lang.getRef('chatCommands.dev', Language.Default),
