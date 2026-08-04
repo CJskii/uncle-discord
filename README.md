@@ -59,15 +59,14 @@ Wyrażenia w adresach URL i nazwach niestandardowych emoji Discorda nie są zlic
 
 W Discord Developer Portal, w sekcji **Bot → Privileged Gateway Intents**, włącz **Message Content Intent**. Konfiguracja klienta musi zawierać także intenty `GuildMessages` i `MessageContent`.
 
-Funkcja korzysta z istniejącej zmiennej `DATABASE_URL` dla PostgreSQL i nie dodaje nowych zmiennych środowiskowych. Po wdrożeniu uruchom:
+Funkcja korzysta z istniejącej zmiennej `DATABASE_URL` dla PostgreSQL i nie dodaje nowych zmiennych środowiskowych. Obraz Docker automatycznie wykonuje `prisma migrate deploy` po uruchomieniu zdrowego kontenera PostgreSQL i uruchamia bota dopiero po pomyślnym zakończeniu migracji. Wdrożenie przez Docker Compose wymaga więc tylko przebudowania obrazu:
 
 ```bash
-npx prisma migrate deploy
-npx prisma generate
-npm run commands:register
-npm test
-npm start
+docker compose up -d --build
+docker compose logs --tail=100 discord-bot
 ```
+
+Przed wdrożeniem migracji na produkcyjną bazę nadal zalecane jest wykonanie kopii zapasowej. Po zmianie struktury komend slash uruchom także `npm run commands:register` w środowisku mającym token Discorda.
 
 This bot has a few example commands which can be modified as needed.
 

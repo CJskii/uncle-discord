@@ -1,19 +1,30 @@
-FROM node:20.19-alpine
+FROM node:20.19-alpine AS build
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files
 COPY package*.json ./
+RUN npm ci
 
-# Install dependencies
-RUN npm ci --only=production
-
-# Copy application code
 COPY . .
 
-# Build the project
+RUN npx prisma generate
 RUN npm run build
+
+FROM node:20.19-alpine AS runtime
+
+ENV NODE_ENV=production
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/prisma ./prisma
+COPY --from=build /app/prisma.config.ts ./prisma.config.ts
+COPY --from=build /app/config ./config
+COPY --from=build /app/lang ./lang
+COPY --from=build /app/process.json ./process.json
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs
@@ -30,5 +41,6 @@ EXPOSE 3001
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
   CMD node -e "require('fs').accessSync('/app/dist/start-bot.js'); console.log('Health check passed')"
 
-# Run the application
-CMD [ "node", "dist/start-manager.js" ]
+# Apply committed migrations before accepting Discord events. Prisma uses
+# PostgreSQL advisory locking to serialize concurrent migration attempts.
+CMD ["sh", "-c", "./node_modules/.bin/prisma migrate deploy && exec node --enable-source-maps dist/start-bot.js"]

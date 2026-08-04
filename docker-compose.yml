@@ -43,7 +43,6 @@ services:
             options:
                 max-size: '10m'
                 max-file: '3'
-        command: ['node', 'dist/start-bot.js']
 
 volumes:
     postgres_data:
