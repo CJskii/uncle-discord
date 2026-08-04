@@ -46,7 +46,6 @@ import { Trigger } from './triggers/index.js';
 const require = createRequire(import.meta.url);
 let Config = require('../config/config.json');
 let Logs = require('../lang/logs.json');
-let discordToken = process.env.DISCORD_TOKEN ?? Config.client.token;
 
 async function start(): Promise<void> {
     // Services
@@ -118,7 +117,7 @@ async function start(): Promise<void> {
     // Bot
     Logger.info('Initializing bot with handlers and services...');
     let bot = new Bot(
-        discordToken,
+        Config.client.token,
         client,
         guildJoinHandler,
         guildLeaveHandler,
@@ -134,7 +133,7 @@ async function start(): Promise<void> {
     // Register
     if (process.argv[2] == 'commands') {
         try {
-            let rest = new REST({ version: '10' }).setToken(discordToken);
+            let rest = new REST({ version: '10' }).setToken(Config.client.token);
             let commandRegistrationService = new CommandRegistrationService(rest);
             let localCmds = [
                 ...Object.values(ChatCommandMetadata).sort((a, b) => (a.name > b.name ? 1 : -1)),
