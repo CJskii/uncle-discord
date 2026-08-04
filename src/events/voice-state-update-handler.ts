@@ -10,8 +10,6 @@ import {
 import { Config } from '../constants/config.js';
 import { Logger } from '../services/index.js';
 
-
-
 export class VoiceStateUpdateHandler {
     private readonly CREATE_CHANNEL_ID: string;
     private readonly TEMP_CATEGORY_ID: string;

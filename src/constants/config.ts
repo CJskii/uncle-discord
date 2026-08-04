@@ -1,4 +1,4 @@
 export const Config = {
     CREATE_CHANNEL_ID: '1473856891225636884',
     TEMP_CATEGORY_ID: '1473856499351556160',
-}   
+};
