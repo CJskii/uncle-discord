@@ -9,9 +9,7 @@ services:
             POSTGRES_USER: ${POSTGRES_USER}
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
         networks:
-            infrastructure-net:
-                aliases:
-                    - postgres
+            - discord-bot-net
         restart: unless-stopped
         healthcheck:
             test:
@@ -36,7 +34,7 @@ services:
             DATABASE_URL: ${DATABASE_URL}
             DISCORD_TOKEN: ${DISCORD_TOKEN}
         networks:
-            - infrastructure-net
+            - discord-bot-net
         restart: unless-stopped
         logging:
             driver: json-file
@@ -48,5 +46,8 @@ volumes:
     postgres_data:
 
 networks:
-    infrastructure-net:
-        external: true
+    # Keep the database hostname private to this Compose project. A generic
+    # `postgres` alias on a shared external network can resolve to an unrelated
+    # PostgreSQL container and cause intermittent authentication failures.
+    discord-bot-net:
+        driver: bridge
