@@ -23,8 +23,8 @@ import { RateLimiter } from 'discord.js-rate-limiter';
 import { vi } from 'vitest';
 import { DeepMockProxy, mockDeep } from 'vitest-mock-extended';
 
-import { Command } from '../../src/commands/index.ts';
-import { mockProp } from '../helpers/index.ts';
+import { Command } from '../../src/commands/index.js';
+import { mockProp } from '../helpers/index.js';
 
 // -----------------------------------------------------------------------------
 // User Builder

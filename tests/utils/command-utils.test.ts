@@ -1,3 +1,4 @@
+import { RateLimiter } from 'discord.js-rate-limiter';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Command } from '../../src/commands/index.js';
@@ -81,11 +82,7 @@ describe('CommandUtils', () => {
             // Create a mock command with cooldown using helper
             const cmdMock = createMockCommand({
                 requireClientPerms: ['ViewChannel', 'SendMessages'], // Use correct permission names
-                cooldown: {
-                    take: vi.fn(),
-                    amount: 1,
-                    interval: 5000,
-                },
+                cooldown: Object.assign(new RateLimiter(1, 5000), { take: vi.fn() }),
             });
 
             // Explicitly type the mock command to include the cooldown property
